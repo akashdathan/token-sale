@@ -6,14 +6,18 @@ describe('Exchange', () => {
     await Coincap.init();
   });
 
+  afterAll(async () => {
+    await Coincap.closeConnection();
+  });
+
   test('Happy Path', async () => {
-    const rate = await Exchange.getExchangeRate('1.5', '3', 'ethereum', '3.5');
+    const rate = await Exchange.getExchangeRate('1.5', '3', 'ETH', '3.5');
 
     expect(rate).toBeTruthy();
   });
 
   test('Precision Check', async () => {
-    const rate = await Exchange.getExchangeRate('6540825.876543210987654325', '18', 'bitcoin', '992465.123456789012345678');
+    const rate = await Exchange.getExchangeRate('6540825.876543210987654325', '18', 'BTC', '992465.123456789012345678');
 
     const precision = rate.split('.')[1].length;
     expect(precision).toBe(18);

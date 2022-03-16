@@ -6,14 +6,9 @@ const baseCurrency = 'ethereum';
 
 export class Exchange {
   private static validate(
-    purchaseCurrency: string,
     outputDecimalRound: string,
     purchaseAmount: string,
   ) {
-    if (!assetEnum[purchaseCurrency]) {
-      throw new Error(`Invalid purchaseCurrency: ${purchaseCurrency}`);
-    }
-
     if (Number(outputDecimalRound) < 0) {
       throw new Error(`outputDecimalRound should be a positive number. Provided: ${outputDecimalRound}`);
     }
@@ -23,16 +18,28 @@ export class Exchange {
     }
   }
 
+  private static getCurrencyMapping(purchaseCurrencySymbol: string): string {
+    // @ts-ignore
+    // eslint-disable-next-line consistent-return
+    const filteredAsset = Object.keys(assetEnum)
+      .find((asset) => assetEnum[asset].symbol === purchaseCurrencySymbol);
+
+    if (filteredAsset) return filteredAsset;
+
+    throw new Error(`Invalid Input Symbol ${purchaseCurrencySymbol}`);
+  }
+
   static async getExchangeRate(
     ethSaleRate: string,
     outputDecimalRound: string,
-    purchaseCurrency: string,
+    purchaseCurrencyCode: string,
     purchaseAmount: string,
   ) {
-    this.validate(purchaseCurrency, outputDecimalRound, purchaseAmount);
+    this.validate(outputDecimalRound, purchaseAmount);
 
     const ethToUsd = Coincap.getPriceInUsd(baseCurrency);
-    const purchaseCurrencyToUsd = Coincap.getPriceInUsd(purchaseCurrency);
+    const mappedCurrency = this.getCurrencyMapping(purchaseCurrencyCode);
+    const purchaseCurrencyToUsd = Coincap.getPriceInUsd(mappedCurrency);
     const purchaseCurrencyToEth = new BigNumber(purchaseCurrencyToUsd).dividedBy(ethToUsd);
 
     const saleValue = purchaseCurrencyToEth
