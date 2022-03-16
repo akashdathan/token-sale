@@ -1,9 +1,24 @@
-const readline = require('readline');
+import * as readline from 'readline';
+import { Coincap } from './service/coincap';
 
-const rl = readline.createInterface({
-  input: process.stdin,
-});
+export class TokenSale {
+  private static async init() {
+    await Coincap.init();
+  }
 
-rl.on('line', (line: string) => {
-  console.log(line);
-});
+  static async run() {
+    await this.init();
+
+    const rl = readline.createInterface({
+      input: process.stdin,
+    });
+
+    rl.on('line', (line: string) => {
+      console.log(line);
+      const price = Coincap.getPriceInUsd('bitcoin');
+      console.log(price);
+    });
+  }
+}
+
+TokenSale.run();
