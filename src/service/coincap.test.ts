@@ -12,7 +12,5 @@ describe('Coincap', () => {
     });
 
     await Coincap.closeConnection();
-
-    // Increase timeout, since price feed population takes time
-  }, 30000);
+  });
 });

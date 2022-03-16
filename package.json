@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@types/websocket": "^1.0.5",
+    "bignumber.js": "^9.0.2",
     "websocket": "^1.0.34"
   },
   "jest": {
@@ -51,6 +52,7 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testTimeout": 30000
   }
 }

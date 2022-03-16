@@ -49,6 +49,9 @@ export class Coincap {
   }
 
   public static getPriceInUsd(symbol: string) {
+    if (Object.keys(assetEnum).length !== Object.keys(this.priceCache).length) {
+      throw new Error('Price not available');
+    }
     return this.priceCache[symbol];
   }
 
