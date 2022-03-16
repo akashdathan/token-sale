@@ -18,4 +18,14 @@ describe('Exchange', () => {
     const precision = rate.split('.')[1].length;
     expect(precision).toBe(18);
   });
+
+  test('Invalid currency', async () => {
+    expect.assertions(1);
+
+    try {
+      await Exchange.getExchangeRate('1.5', '3', 'testcoin', '3.5');
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+    }
+  });
 });
