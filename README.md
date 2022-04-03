@@ -5,8 +5,6 @@
 - Price is stored in an in memory cache which is updated by a live web socket connection with the market
 - Price cache woule have to move to a different service for the aplication to scale, so that single websocket connection is established
 - Designed in such a way that ``asset-enum.ts`` can be modified to add new assets. (Open Closed Principle)
-- Only supports live rates since passing the prices in the provided format would restrict configurability
-- Not designing a configurable price input since I think it's an overkill 
 
 ### Test
 ``npm test``
@@ -19,13 +17,6 @@
 
 ### Run In Developer Mode
 ``npm run start:dev``
-
-### Bonus question
-Q: Why do you think SALE amount is rounded down, instead of rounded off or rounded up?
-<br>
-A: Rounded down so that the platform don't incur any loss.
-Round off or round up might result in a fractional loss per trade and this fraction
-could accumulate over time. 
 
 ### Sample Output
 ```shell
